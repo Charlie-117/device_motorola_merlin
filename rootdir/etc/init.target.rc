@@ -103,6 +103,22 @@ on property:sys.boot_completed=1
     write /sys/devices/system/cpu/cpu4/cpufreq/interactive/min_sample_time 40000
     write /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq 499200
 
+    # add a cpuset for the camera daemon
+    mkdir /dev/cpuset/camera-daemon
+    chown system system /dev/cpuset/camera-daemon
+    chown system system /dev/cpuset/camera-daemon/tasks
+    chmod 0664 /dev/cpuset/camera-daemon/tasks
+
+    # Update foreground and background cpusets
+    # Reserve CPU 7 for the top app
+    # we want all the cores for camera
+    write /dev/cpuset/foreground/cpus 0-6
+    write /dev/cpuset/background/cpus 4-6
+    write /dev/cpuset/system-background/cpus 3-6
+    write /dev/cpuset/top-app/cpus 0-7
+    write /dev/cpuset/restricted/cpus 4-7
+    write /dev/cpuset/camera-daemon/cpus 0-7
+
     write /sys/module/msm_thermal/core_control/enabled 1
 
 on property:ro.boot.hardware.sku=XT1556
