@@ -56,24 +56,28 @@ on property:sys.boot_completed=1
     write /sys/module/lpm_levels/parameters/sleep_disabled 0
     write /sys/devices/system/cpu/cpu0/online 1
 
+    # HMP scheduler settings for 8939 V3.0
+    write /proc/sys/kernel/sched_window_stats_policy 3
+    write /proc/sys/kernel/sched_ravg_hist_size 3
+    write /proc/sys/kernel/sched_ravg_window 20000000
+
     # HMP scheduler (big.Little cluster related) settings
-    write /proc/sys/kernel/sched_upmigrate 60
-    write /proc/sys/kernel/sched_downmigrate 35
+    write /proc/sys/kernel/sched_upmigrate 65
+    write /proc/sys/kernel/sched_downmigrate 30
+
+    # HMP Task packing settings for 8939 V3.0
+    write /proc/sys/kernel/sched_prefer_idle 0
+    write /proc/sys/kernel/sched_mostly_idle_load 30
     write /proc/sys/kernel/sched_small_task 20
+    write /proc/sys/kernel/sched_mostly_idle_nr_run 3
 
     # Enable sched guided freq control
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/use_sched_load 1
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/use_migration_notif 1
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/use_sched_load 1
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/use_migration_notif 1
     write /proc/sys/kernel/sched_freq_inc_notify 50000
     write /proc/sys/kernel/sched_freq_dec_notify 50000
-
-    # cpu idle load threshold
-    write /sys/devices/system/cpu/cpu0/sched_mostly_idle_load 30
-    write /sys/devices/system/cpu/cpu1/sched_mostly_idle_load 30
-    write /sys/devices/system/cpu/cpu2/sched_mostly_idle_load 30
-    write /sys/devices/system/cpu/cpu3/sched_mostly_idle_load 30
-    write /sys/devices/system/cpu/cpu4/sched_mostly_idle_load 30
-    write /sys/devices/system/cpu/cpu5/sched_mostly_idle_load 30
-    write /sys/devices/system/cpu/cpu6/sched_mostly_idle_load 30
-    write /sys/devices/system/cpu/cpu7/sched_mostly_idle_load 30
 
     write /sys/module/cpu_boost/parameters/boost_ms 20
     write /sys/module/cpu_boost/parameters/sync_threshold 960000
@@ -89,7 +93,14 @@ on property:sys.boot_completed=1
     # enable governor for perf cluster
     write /sys/devices/system/cpu/cpu0/online 1
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "interactive"
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/above_hispeed_delay "40000 1344000:50000"
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/go_hispeed_load 95
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/timer_rate 25000
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/hispeed_freq 1344000
     write /sys/devices/system/cpu/cpu0/cpufreq/interactive/io_is_busy 1
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/target_loads "1 960000:85 1344000:95"
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/min_sample_time 50000
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 400000
 
     # Bring all big cluster cores online
     write /sys/devices/system/cpu/cpu1/online 1
@@ -102,14 +113,14 @@ on property:sys.boot_completed=1
     # enable governor for power cluster
     write /sys/devices/system/cpu/cpu4/online 1
     write /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor "interactive"
-    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/above_hispeed_delay "25000 800000:50000"
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/above_hispeed_delay "25000 998400:40000"
     write /sys/devices/system/cpu/cpu4/cpufreq/interactive/go_hispeed_load 80
     write /sys/devices/system/cpu/cpu4/cpufreq/interactive/timer_rate 40000
     write /sys/devices/system/cpu/cpu4/cpufreq/interactive/hispeed_freq 998400
     write /sys/devices/system/cpu/cpu4/cpufreq/interactive/io_is_busy 0
-    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/target_loads "50 800000:65 998400:90"
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/target_loads "1 800000:60 998400:80 1113600:95"
     write /sys/devices/system/cpu/cpu4/cpufreq/interactive/min_sample_time 40000
-    write /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq 499200
+    write /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq 400000
 
     # add a cpuset for the camera daemon
     mkdir /dev/cpuset/camera-daemon
@@ -120,12 +131,12 @@ on property:sys.boot_completed=1
     # Update foreground and background cpusets
     # Reserve CPU 7 for the top app
     # we want all the cores for camera
-    write /dev/cpuset/foreground/cpus 0-6
-    write /dev/cpuset/background/cpus 4-6
-    write /dev/cpuset/system-background/cpus 3-6
+    write /dev/cpuset/foreground/cpus 0-7
+    write /dev/cpuset/background/cpus 4-7
+    write /dev/cpuset/system-background/cpus 4-7
     write /dev/cpuset/top-app/cpus 0-7
-    write /dev/cpuset/restricted/cpus 4-7
     write /dev/cpuset/camera-daemon/cpus 0-7
+    write /dev/cpuset/restricted/cpus 3
 
     write /sys/module/msm_thermal/core_control/enabled 1
 
