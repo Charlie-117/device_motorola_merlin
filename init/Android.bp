@@ -1,0 +1,13 @@
+//
+// Copyright (C) 2021 The Android Ice Cold Project
+//
+
+cc_library_static {
+    name: "libinit_merlin",
+    recovery_available: true,
+    srcs: ["init_merlin.cpp"],
+    include_dirs: [
+        "system/core/base/include",
+        "system/core/init"
+    ]
+}
