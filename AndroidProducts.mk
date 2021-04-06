@@ -14,8 +14,8 @@
 # limitations under the License.
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/aicp_merlin.mk
+    $(LOCAL_DIR)/dot_merlin.mk
 
 COMMON_LUNCH_CHOICES := \
-    aicp_merlin-userdebug \
-    aicp_merlin-eng
+    dot_merlin-userdebug \
+    dot_merlin-eng
