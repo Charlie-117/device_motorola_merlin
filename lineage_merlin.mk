@@ -1,6 +1,5 @@
 # Copyright (C) 2015 The CyanogenMod Project
 #           (C) 2017 The LineageOS Project
-#           (C) 2020 Android Ice Cold Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -23,7 +22,7 @@ TARGET_SCREEN_HEIGHT := 1280
 
 ## Device identifier. This must come after all inclusions
 PRODUCT_DEVICE := merlin
-PRODUCT_NAME := aicp_merlin
+PRODUCT_NAME := lineage_merlin
 PRODUCT_MODEL := MotoG3-TE
 PRODUCT_BRAND := Motorola
 PRODUCT_MANUFACTURER := Motorola
@@ -33,7 +32,3 @@ PRODUCT_BUILD_PROP_OVERRIDES += \
     PRIVATE_BUILD_DESC="merlin_retail-user 6.0.1 MPD24.107-56 30 release-keys"
 
 BUILD_FINGERPRINT := "motorola/merlin_retasia/merlin:6.0/MPD24.65-22/23:user/release-keys"
-
-# AICP Device Maintainer
-PRODUCT_BUILD_PROP_OVERRIDES += \
-    DEVICE_MAINTAINERS="Charlie (Charlie-117)"
