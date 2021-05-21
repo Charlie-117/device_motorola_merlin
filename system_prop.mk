@@ -1,13 +1,12 @@
 # Art
 PRODUCT_PROPERTY_OVERRIDES += \
-    dalvik.vm.image-dex2oat-filter=quicken \
+    dalvik.vm.image-dex2oat-filter=speed-profile \
+    dalvik.vm.dex2oat-filter=speed-profile \
     dalvik.vm.image-dex2oat-threads=8 \
-    dalvik.vm.image-dex2oat-cpu-set=0,1,2,3,4,5,6,7 \
-    dalvik.vm.dex2oat-filter=quicken \
-    dalvik.vm.dex2oat-threads=8 \
-    dalvik.vm.dex2oat-cpu-set=0,1,2,3,4,5,6,7 \
+    dalvik.vm.dex2oat-threads=4 \
     dalvik.vm.boot-dex2oat-threads=8 \
-    dalvik.vm.boot-dex2oat-cpu-set=0,1,2,3,4,5,6,7
+    dalvik.vm.minidebuginfo=false \
+    dalvik.vm.dex2oat-minidebuginfo=false
 
 # Dalvik
 PRODUCT_PROPERTY_OVERRIDES += \
